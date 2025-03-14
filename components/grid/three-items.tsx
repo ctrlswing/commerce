@@ -43,13 +43,17 @@ function ThreeItemGridItem({
 
 export async function ThreeItemGrid() {
   // Collections that start with `hidden-*` are hidden from the search page.
+  // Using frontpage collection instead of hidden-homepage-featured-items
   const homepageItems = await getCollectionProducts({
-    collection: 'hidden-homepage-featured-items'
+    collection: 'frontpage'
   });
 
-  if (!homepageItems[0] || !homepageItems[1] || !homepageItems[2]) return null;
+  if (!homepageItems[0]) return null;
 
-  const [firstProduct, secondProduct, thirdProduct] = homepageItems;
+  // Create duplicates if we don't have enough products
+  const firstProduct = homepageItems[0];
+  const secondProduct = homepageItems[1] || homepageItems[0];
+  const thirdProduct = homepageItems[2] || homepageItems[0];
 
   return (
     <section className="mx-auto grid max-w-(--breakpoint-2xl) gap-4 px-4 pb-4 md:grid-cols-6 md:grid-rows-2 lg:max-h-[calc(100vh-200px)]">
